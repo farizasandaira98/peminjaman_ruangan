@@ -9,7 +9,7 @@ class DataRuangan extends Model
 {
     use HasFactory;
 
-    protected $guard = 'data_ruangan';
+    public $table = "data_ruangan";
 
     protected $fillable = [
        'nama_ruangan','kapasitas','status_peminjaman'

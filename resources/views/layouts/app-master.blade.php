@@ -6,10 +6,11 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.87.0">
-    <title>Fixed top navbar example · Bootstrap v5.1</title>
+    <title>Web Peminjaman Ruangan Dinas PUP ESDM Provinsi DIY</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{!! url('assets/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
+    <link rel="stylesheet" href="{!! url('assets/css/ruangan.css') !!}">
 
     <style>
       .bd-placeholder-img {

@@ -27,6 +27,9 @@
         </div>
 
         <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+        </br>
+        </br>
+        <a href="/">Kembali Ke Halaman Utama</a>
 
         @include('auth.partials.copy')
     </form>

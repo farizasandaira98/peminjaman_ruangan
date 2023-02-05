@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataRuangan;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class DataRuanganController extends Controller
@@ -43,13 +43,11 @@ class DataRuanganController extends Controller
         $rules = [
             'nama_ruangan' => 'required',
             'kapasitas' => 'required',
-            'status_peminjaman' => 'required',
         ];
 
         $messages = [
             'nama_ruangan.required'          => 'Nama Ruangan Wajib Diisi',
             'kapasitas.required'          => 'Kapasitas wajib diisi',
-            'status_peminjaman.required'          => 'Status Peminjaman wajib diisi',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -58,12 +56,12 @@ class DataRuanganController extends Controller
           return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
 
-        $statuspeminjaman = "Belum Kembali";
+        $statuspeminjaman = "Tersedia";
 
         $simpan = DataRuangan::create([
             'nama_ruangan' => $request->nama_ruangan,
             'kapasitas' => $request->kapasitas,
-            'status_peminjaman' => $request->statuspeminjaman,
+            'status_peminjaman' => $statuspeminjaman,
         ]);
 
         if($simpan){
@@ -120,7 +118,7 @@ class DataRuanganController extends Controller
 
         $dataruangan->nama_ruangan = $request->nama_ruangan;
         $dataruangan->kapasitas = $request->kapasitas;
-        $dataruangan->foto_kwitansi = $request->status_peminjaman;
+        $dataruangan->status_peminjaman = $request->status_peminjaman;
         $simpan = $dataruangan->save();
 
         if($simpan){
@@ -140,15 +138,15 @@ class DataRuanganController extends Controller
      */
     public function destroy($id)
     {
-        $dataruangan = DataRuangan::where('id',$id)->first();
+        $dataruangan = DataRuangan::where('id', $id)->first();
         $dataruangan->delete();
 
         if($dataruangan){
             Session::flash('success', 'Data Berhasil Dihapus');
-            return redirect('penjual/dataruangan');
+            return redirect('/dataruangan');
         } else {
             Session::flash('errors', ['' => 'Terjadi Kesalahan...']);
-            return redirect('penjual/dataruangan');
+            return redirect('/dataruangan');
         }
     }
 
