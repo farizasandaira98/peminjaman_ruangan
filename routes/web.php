@@ -34,6 +34,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/inventaris/{id}/edit/{idinventaris}', [App\Http\Controllers\DataInventarisController::class, 'edit'])->name('datainventaris.edit');
         Route::post('/inventaris/{id}/update/{idinventaris}', [App\Http\Controllers\DataInventarisController::class, 'update'])->name('datainventaris.update');
         Route::get('/inventaris/{id}/destroy/{idinventaris}', [App\Http\Controllers\DataInventarisController::class, 'destroy'])->name('datainventaris.destroy');
+
+    });
+
+    Route::prefix('datapeminjaman')->group(function() {
+        Route::get('/', [App\Http\Controllers\DataPeminjamanController::class, 'index'])->name('datapeminjaman.index');
+        Route::get('/create', [App\Http\Controllers\DataPeminjamanController::class, 'create'])->name('datapeminjaman.create');
+        Route::post('/store', [App\Http\Controllers\DataPeminjamanController::class, 'store'])->name('datapeminjaman.store');
+        Route::get('/edit/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'edit'])->name('datapeminjaman.edit');
+        Route::post('/update/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'update'])->name('datapeminjaman.update');
+        Route::get('/destroy/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'destroy'])->name('datapeminjaman.destroy');
     });
 
     Route::group(['middleware' => ['guest']], function() {

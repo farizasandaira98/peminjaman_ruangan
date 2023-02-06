@@ -6,9 +6,9 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
+          <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
           <li><a href="/dataruangan" class="nav-link px-2 text-white">Data Ruangan</a></li>
-          <li><a href="/datapeminjam" class="nav-link px-2 text-white">Data Peminjam</a></li>
+          <li><a href="/datapeminjaman" class="nav-link px-2 text-white">Data Peminjam</a></li>
           <li><a href="/tentang" class="nav-link px-2 text-white">Tentang</a></li>
         </ul>
 
@@ -19,6 +19,9 @@
         @auth
           {{auth()->user()->name}}
           <div class="text-end">
+            @auth
+            <a href="#" class="btn btn-outline-light me-2">Halo {{ Auth::user()->username }}</a>
+            @endauth
             <a href="{{ route('logout.perform') }}" class="btn btn-outline-light me-2">Logout</a>
           </div>
         @endauth

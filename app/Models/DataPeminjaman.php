@@ -9,15 +9,15 @@ class DataPeminjaman extends Model
 {
     use HasFactory;
 
-    public function DataRuangan()
+    public function dataruangan()
     {
         return $this->belongsTo(DataRuangan::class,'id_ruangan');
     }
 
-    protected $guard = 'data_ruangan';
+    public $table = "data_peminjaman";
 
     protected $fillable = [
        'nama_peminjam','nip','nomor_telepon','status_kembali_kunci','keperluan_peminjaman',
-       'id_ruangan','nama_admin'
+       'id_ruangan'
     ];
 }

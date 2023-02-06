@@ -10,7 +10,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{!! url('assets/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
-    <link rel="stylesheet" href="{!! url('assets/css/ruangan.css') !!}">
 
     <style>
       .bd-placeholder-img {

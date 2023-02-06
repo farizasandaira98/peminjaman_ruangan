@@ -1,6 +1,9 @@
 @extends('layouts.app-master')
 
 @section('content')
+
+<link rel="stylesheet" href="{!! url('assets/css/inventaris.css') !!}">
+
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -79,7 +82,11 @@
                 </br>
                 @endif
             </br>
+            <h2>Inventaris Barang {{ $namaruangan->nama_ruangan }}</h2>
         </br>
+        <a href="/dataruangan" class="btn btn-danger">Kembali Ke Data Ruangan</a>
+        </br>
+    </br>
         <div class="card">
           <div class="card-body">
             <table>
@@ -89,7 +96,6 @@
                     <th>Nama Barang</th>
                     <th>Jumlah Barang</th>
                     <th>Kualitas Barang</th>
-                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>

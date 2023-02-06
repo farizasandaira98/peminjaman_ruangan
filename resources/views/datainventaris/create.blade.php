@@ -59,7 +59,7 @@
                             {{ $errors->first('kualitas_barang')}}
                         </div>
                         @endif
-                </br>
+                    </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Simpan">
             </div>
