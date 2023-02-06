@@ -27,15 +27,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/edit/{id}', [App\Http\Controllers\DataRuanganController::class, 'edit'])->name('dataruangan.edit');
         Route::post('/update/{id}', [App\Http\Controllers\DataRuanganController::class, 'update'])->name('dataruangan.update');
         Route::get('/destroy/{id}', [App\Http\Controllers\DataRuanganController::class, 'destroy'])->name('dataruangan.destroy');
+
+        Route::get('/inventaris/{id}', [App\Http\Controllers\DataInventarisController::class, 'index'])->name('datainventaris.index');
+        Route::get('/inventaris/{id}/create', [App\Http\Controllers\DataInventarisController::class, 'create'])->name('datainventaris.create');
+        Route::post('/inventaris/{id}/store', [App\Http\Controllers\DataInventarisController::class, 'store'])->name('datainventaris.store');
+        Route::get('/inventaris/{id}/edit/{idinventaris}', [App\Http\Controllers\DataInventarisController::class, 'edit'])->name('datainventaris.edit');
+        Route::post('/inventaris/{id}/update/{idinventaris}', [App\Http\Controllers\DataInventarisController::class, 'update'])->name('datainventaris.update');
+        Route::get('/inventaris/{id}/destroy/{idinventaris}', [App\Http\Controllers\DataInventarisController::class, 'destroy'])->name('datainventaris.destroy');
     });
 
     Route::group(['middleware' => ['guest']], function() {
-        /**
-         * Register Routes
-         */
-        Route::get('/register', 'RegisterController@show')->name('register.show');
-        Route::post('/register', 'RegisterController@register')->name('register.perform');
-
         /**
          * Login Routes
          */
@@ -45,6 +46,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
 
     Route::group(['middleware' => ['auth']], function() {
+        /**
+         * Register Routes
+         */
+        Route::get('/register', 'RegisterController@show')->name('register.show');
+        Route::post('/register', 'RegisterController@register')->name('register.perform');
+
         /**
          * Logout Routes
          */

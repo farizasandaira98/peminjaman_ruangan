@@ -21,7 +21,10 @@
                 </br>
                 @endif
             </br>
-        <a href="/dataruangan/create" class="btn btn-primary">Input Data Ruangan</a>
+        <h2>Inventaris Barang {{ $namaruangan->nama_ruangan }}</h2>
+        </br>
+        <a href="/dataruangan/inventaris/{{ $id_ruangan }}/create" class="btn btn-primary">Input Data Invetaris</a>
+        <a href="/dataruangan" class="btn btn-danger">Kembali Ke Data Ruangan</a>
         </br></br>
         <div class="card">
           <div class="card-body">
@@ -29,23 +32,22 @@
                     <thead>
                       <tr style="text-align: center;">
                         <th>No</th>
-                        <th>Nama Ruangan</th>
-                        <th>Kapasitas</th>
-                        <th>Status Peminjaman</th>
+                        <th>Nama Barang</th>
+                        <th>Jumlah Barang</th>
+                        <th>Kualitas Barang</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach($dataruangan as $ang)
+                    @foreach($datainventaris as $ang)
                       <tr>
                       <td>{{ $loop->iteration }}</td>
-                      <td>{{ $ang->nama_ruangan }}</td>
-                      <td>{{ $ang->kapasitas }} Orang</td>
-                      <td>{{ $ang->status_peminjaman }}</td>
+                      <td>{{ $ang->nama_barang }}</td>
+                      <td>{{ $ang->jumlah_barang }}</td>
+                      <td>{{ $ang->kualitas_barang }}</td>
                       <td>
-                        <a href="/dataruangan/edit/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Edit</a></br></br>
-                        <a href="/dataruangan/destroy/{{ $ang->id }}" class="btn btn-danger" style="width:100%;">Hapus</a></br></br>
-                        <a href="/dataruangan/inventaris/{{ $ang->id }}" class="btn btn-primary" style="width:100%;">Lihat Inventaris Ruangan</a>
+                        <a href="/dataruangan/inventaris/{{ $id_ruangan }}/edit/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Edit</a></br></br>
+                        <a href="/dataruangan/inventaris/{{ $id_ruangan }}/destroy/{{ $ang->id }}" class="btn btn-danger" style="width:100%;">Hapus</a></br></br>
                       </td>
                       </tr>
                       @endforeach
@@ -55,7 +57,7 @@
               </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                {{ $dataruangan->links() }}
+                {{ $datainventaris->links() }}
                 </div>
         </div><!-- /.container-fluid -->
         @endauth
@@ -80,38 +82,32 @@
         </br>
         <div class="card">
           <div class="card-body">
-                  <table>
-                    <thead>
-                      <tr style="text-align: center;">
-                        <th>No</th>
-                        <th>Nama Ruangan</th>
-                        <th>Kapasitas</th>
-                        <th>Status Peminjaman</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($dataruangan as $ang)
-                      <tr>
-                      <td>{{ $loop->iteration }}</td>
-                      <td>{{ $ang->nama_ruangan }}</td>
-                      <td>{{ $ang->kapasitas }}</td>
-                      <td>{{ $ang->status_peminjaman }}</td>
-                      <td>
-                        @if($ang->status_peminjaman === "Tersedia")
-                        <a href="/pinjamruangan{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Pinjam Ruangan</a></br></br>
-                        @endif
-                        <a href="/dataruangan/inventaris/{{ $ang->id }}" class="btn btn-primary" style="width:100%;">Lihat Inventaris Ruangan</a>
-                      </td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
+            <table>
+                <thead>
+                  <tr style="text-align: center;">
+                    <th>No</th>
+                    <th>Nama Barang</th>
+                    <th>Jumlah Barang</th>
+                    <th>Kualitas Barang</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                @foreach($datainventaris as $ang)
+                  <tr>
+                  <td>{{ $loop->iteration }}</td>
+                  <td>{{ $ang->nama_barang }}</td>
+                  <td>{{ $ang->jumlah_barang }}</td>
+                  <td>{{ $ang->kualitas_barang }}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
                 </div>
               </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                {{ $dataruangan->links() }}
+                {{ $datainventaris->links() }}
                 </div>
         </div><!-- /.container-fluid -->
         @endguest

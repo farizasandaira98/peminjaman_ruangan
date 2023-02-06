@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="form-group">
-                            <label><strong>Status Peminjaman</strong></label>
+                            <label>Status Peminjaman</label>
                             <select class="form-control" id="status_peminjaman" name="status_peminjaman">
                             @if($dataruangan->status_peminjaman === "Tersedia")
                             <option value="Tersedia">Tersedia</option>

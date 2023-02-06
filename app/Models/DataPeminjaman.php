@@ -14,15 +14,10 @@ class DataPeminjaman extends Model
         return $this->belongsTo(DataRuangan::class,'id_ruangan');
     }
 
-    public function User()
-    {
-        return $this->belongsTo(User::class,'id_admin');
-    }
-
     protected $guard = 'data_ruangan';
 
     protected $fillable = [
        'nama_peminjam','nip','nomor_telepon','status_kembali_kunci','keperluan_peminjaman',
-       'id_ruangan','id_admin'
+       'id_ruangan','nama_admin'
     ];
 }
