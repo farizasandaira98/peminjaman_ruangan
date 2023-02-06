@@ -10,7 +10,7 @@
 
         @guest
         <h1>Selamat Datang</h1>
-        <p class="lead">Web Peminjaman Ruangan Rapat Dinas PUP ESDM Daerah Istimewa Yogyakarta.</p>
+        <p class="lead"><strong>Sistem Peminjaman Ruangan Rapat Dinas PUP ESDM Daerah Istimewa Yogyakarta.<strong></p>
         @endguest
     </div>
 @endsection
