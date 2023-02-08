@@ -7,9 +7,32 @@ use App\Models\DataRuangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DataPeminjamanController extends Controller
 {
+    public static function transaltehari($hari)
+    {
+        if($hari === "Sunday"){
+            $hariindonesia = "Minggu";
+        }elseif ($hari === "Monday") {
+            $hariindonesia = "Senin";
+        }elseif ($hari === "Tuesday") {
+            $hariindonesia = "Selasa";
+        }elseif ($hari === "Wednesday") {
+            $hariindonesia = "Rabu";
+        }elseif ($hari === "Thursday") {
+            $hariindonesia = "Kamis";
+        }elseif ($hari === "Friday") {
+            $hariindonesia = "Jumat";
+        }elseif ($hari === "Saturday") {
+            $hariindonesia = "Sabtu";
+        }
+
+        return $hariindonesia;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,11 +51,26 @@ class DataPeminjamanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
+        $dalamrentangwaktu = null;
         $dataruangan = DataRuangan::all();
+        $ruangan = DataRuangan::where("id","=",$id)->first();
         return view('/datapeminjaman/create')
-        ->with(compact("dataruangan"));
+        ->with(compact("dataruangan"))
+        ->with(compact("dalamrentangwaktu"))
+        ->with(compact("ruangan"));
+    }
+
+    public function createadmin()
+    {
+        $dalamrentangwaktu = null;
+        $dataruangan = DataRuangan::all();
+        $ruangan = null;
+        return view('/datapeminjaman/create')
+        ->with(compact("dataruangan"))
+        ->with(compact("dalamrentangwaktu"))
+        ->with(compact("ruangan"));
     }
 
     /**
@@ -47,18 +85,18 @@ class DataPeminjamanController extends Controller
             'nama_peminjam' => 'required',
             'nip' => 'required',
             'nomor_telepon' => 'required',
-            'status_kembali_kunci' => 'required',
             'keperluan_peminjaman' => 'required',
             'id_ruangan' => 'required',
+            'waktu_mulai_peminjaman' => 'required',
         ];
 
         $messages = [
             'nama_peminjam.required'          => 'Nama Peminjaman Wajib Diisi',
             'nip.required'          => 'NIP wajib diisi',
             'nomor_telepon.required'          => 'Nomor Telepon wajib diisi',
-            'status_kembali_kunci.required'          => 'Nomor Telepon wajib diisi',
             'keperluan_peminjaman.required'          => 'Keperluan Peminjaman Wajib wajib diisi',
             'id_ruangan.required'          => 'Ruangan Yang Akan Dipinjam Wajib Wajib Dipilih',
+            'waktu_mulai_peminjaman.required'          => 'Waktu Mulai Peminjaman Wajib Diisi',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -67,90 +105,45 @@ class DataPeminjamanController extends Controller
           return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
 
+        $inthour = (int)$request->waktu_peminjaman;
+        $waktu_akhir_peminjaman = Carbon::parse($request->waktu_mulai_peminjaman)->addHour($inthour);
+        $intidruangan = (int)$request->id_ruangan;
+        $convertdatepeminjaman = Carbon::parse($request->waktu_mulai_peminjaman);
+
+        $datatimepeminjaman = DataPeminjaman::all();
+        $dataruangan = DataRuangan::all();
+        foreach ($datatimepeminjaman as $ang) {
+            if ($convertdatepeminjaman >= $ang->waktu_mulai_peminjaman && $convertdatepeminjaman <= $ang->waktu_akhir_peminjaman && $intidruangan == $ang->id_ruangan) {
+                $dalamrentangwaktu = "Ruangan Telah Dipinjam Dalam Rentang Waktu Ini";
+                if (Auth::user()) {
+                    $ruangan = null;
+                }else {
+                    $ruangan = DataRuangan::where("id","=",$request->id_ruangan)->first();
+                }
+                return view('/datapeminjaman/create')
+                ->with(compact("dalamrentangwaktu"))
+                ->with(compact("dataruangan"))
+                ->with(compact("ruangan"));
+            }
+        }
         $simpan = DataPeminjaman::create([
             'nama_peminjam' => $request->nama_peminjam,
             'nip' => $request->nip,
             'nomor_telepon' => $request->nomor_telepon,
-            'status_kembali_kunci' => $request->status_kembali_kunci,
             'keperluan_peminjaman' => $request->keperluan_peminjaman,
             'id_ruangan' => $request->id_ruangan,
+            'waktu_mulai_peminjaman' => $request->waktu_mulai_peminjaman,
+            'waktu_akhir_peminjaman' => $waktu_akhir_peminjaman,
         ]);
 
         if($simpan){
-            Session::flash('success', 'Data Ruangan Berhasil Ditambahkan');
+            Session::flash('success', 'Data Peminjaman Berhasil Ditambahkan');
             return redirect('/datapeminjaman');
         } else {
             Session::flash('errors', ['' => 'Terjadi Kesalahan... ']);
             return redirect('/datapeminjaman');
         }
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\DataRuangan  $stokIkan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $dataruangan = DataRuangan::all();
-        // $datapeminjaman = DataPeminjaman::where('id', $id)->first();
-        return view('/dataruangan/edit')
-        ->with(compact('dataruangan'));
-        // ->with(compact('datapeminjaman'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DataRuangan  $stokIkan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $rules = [
-            'nama_peminjam' => 'required',
-            'nip' => 'required',
-            'nomor_telepon' => 'required',
-            'status_kembali_kunci' => 'required',
-            'keperluan_peminjaman' => 'required',
-            'id_ruangan' => 'required',
-        ];
-
-        $messages = [
-            'nama_peminjam.required'          => 'Nama Peminjaman Wajib Diisi',
-            'nip.required'          => 'NIP wajib diisi',
-            'nomor_telepon.required'          => 'Nomor Telepon wajib diisi',
-            'status_kembali_kunci.required'          => 'Nomor Telepon wajib diisi',
-            'keperluan_peminjaman.required'          => 'Keperluan Peminjaman Wajib wajib diisi',
-            'id_ruangan.required'          => 'Ruangan Yang Akan Dipinjam Wajib Wajib Dipilih',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if($validator->fails()){
-          return redirect()->back()->withErrors($validator)->withInput($request->all);
-        }
-
-        $datapeminjaman = DataPeminjaman::where('id', $id)->first();
-
-        $datapeminjaman->nama_peminjam = $request->nama_peminjam;
-        $datapeminjaman->nip = $request->nip;
-        $datapeminjaman->nomor_telepon = $request->nomor_telepon;
-        $datapeminjaman->status_kembali_kunci = $request->status_kembali_kunci;
-        $datapeminjaman->keperluan_peminjaman = $request->keperluan_peminjaman;
-        $datapeminjaman->id_ruangan = $request->id_ruangan;
-        $simpan = $datapeminjaman->save();
-
-        if($simpan){
-            Session::flash('success', 'Data Ruangan Berhasil Ditambahkan');
-            return redirect('/datapeminjaman');
-        } else {
-            Session::flash('errors', ['' => 'Terjadi Kesalahan... ']);
-            return redirect('/datapeminjaman');
-        }
     }
 
     /**
@@ -165,7 +158,7 @@ class DataPeminjamanController extends Controller
         $datapeminjaman->delete();
 
         if($datapeminjaman){
-            Session::flash('success', 'Data Ruangan Berhasil Ditambahkan');
+            Session::flash('success', 'Data Ruangan Berhasil Dihapus');
             return redirect('/datapeminjaman');
         } else {
             Session::flash('errors', ['' => 'Terjadi Kesalahan... ']);

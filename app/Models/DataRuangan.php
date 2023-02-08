@@ -12,6 +12,6 @@ class DataRuangan extends Model
     public $table = "data_ruangan";
 
     protected $fillable = [
-       'nama_ruangan','kapasitas','status_peminjaman'
+       'nama_ruangan','kapasitas'
     ];
 }

@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 <body>
     <div class="container">
@@ -21,7 +20,20 @@
                 </div>
                 @endif
 
+                @if ($dalamrentangwaktu !== null)
+                <div class="alert alert-danger alert-block">
+                 <button type="button" class="close" data-dismiss="alert"></button>
+                 <strong>{{ $dalamrentangwaktu }}</strong>
+                </div>
+                @endif
+
+                @auth
                 <a href="/datapeminjaman" class="btn btn-primary">Kembali</a>
+                @endauth
+
+                @guest
+                <a href="/dataruangan" class="btn btn-primary">Kembali</a>
+                @endguest
                 <br/>
                 <br/>
 
@@ -61,21 +73,6 @@
                     </div>
 
                     <div class="form-group">
-                            <label>Status Kembali Kunci</label>
-                            <select class="form-control" id="status_kembali_kunci" name="status_kembali_kunci">
-                            <option value="Belum Di Kembalikan">Belum Di Kembalikan</option>
-                            <option value="Telah Di Kembalikan">Telah Di Kembalikan</option>
-                        </select>
-
-
-                        @if($errors->has('status_kembali_kunci'))
-                        <div class="text-danger">
-                            {{ $errors->first('status_kembali_kunci')}}
-                        </div>
-                        @endif
-                    </div>
-
-                    <div class="form-group">
                         <label>Keperluan Peminjaman</label>
                         <input type="text" name="keperluan_peminjaman" class="form-control" placeholder="Keperluan Peminjaman ..">
 
@@ -85,21 +82,53 @@
                         </div>
                         @endif
                     </div>
-
+                    @if($ruangan === null)
                     <div class="form-group">
                         <label for="">Ruangan Yang Dipinjam</label>
-                        <select id="id_ruangan" name="id_ruangan" type="text" class="form-control" placeholder="Pilih Ruangan ...">
+                        <select id="id_ruangan" name="id_ruangan" class="form-control" placeholder="Pilih Ruangan ...">
                             @foreach($dataruangan as $ang)
                             <option value={{ $ang->id }}>{{ $ang->nama_ruangan }}</option>
                             @endforeach
                         </select>
-
+                    </div>
+                    @else
+                       <label>Ruangan Yang Dipinjam</label>
+                       <div class="form-group">
+                        <p><strong>{{ $ruangan->nama_ruangan }}</strong></p>
+                       <input type="text" name="id_ruangan" value={{ $ruangan->id }} class="form-control" hidden>
+                       </div>
+                    @endif
                     @if($errors->has('id_ruangan'))
                     <div class="text-danger">
                         {{ $errors->first('id_ruangan')}}
                     </div>
                     @endif
+
+                <div class="form-group">
+                    <label>Waktu Mulai Peminjaman</label>
+                    <p style="color: red"> * Peminjaman Ruangan Hanya Dapat Dilakukan Dari Jam 08:00</p>
+                    <input type="datetime-local" name="waktu_mulai_peminjaman" id="waktu_mulai_peminjaman" max="12:00:00" class="form-control">
+
+                    @if($errors->has('waktu_mulai_peminjaman'))
+                    <div class="text-danger">
+                        {{ $errors->first('waktu_mulai_peminjaman')}}
+                    </div>
+                    @endif
                 </div>
+
+                <div class="form-group">
+                    <label for="">Waktu Peminjaman</label>
+                    <select id="waktu_peminjaman" name="waktu_peminjaman" class="form-control" placeholder="Waktu Peminjaman ...">
+                        <option value="4">Setengah Hari</option>
+                        <option value="8">Satu Hari</option>
+                    </select>
+
+                @if($errors->has('waktu_peminjaman'))
+                <div class="text-danger">
+                    {{ $errors->first('waktu_peminjaman')}}
+                </div>
+                @endif
+            </div>
 
                 <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Simpan">
@@ -109,6 +138,12 @@
     </div>
 </div>
 </div>
-
+<script>
+    let jammulaipeminjaman = new Date();
+    jammulaipeminjaman.setUTCHours(8,0,0,0);
+    var jammulaipeminjamanconvert = new Date(jammulaipeminjaman).toISOString().slice(0, 16);
+    console.log(jammulaipeminjamanconvert)
+    document.getElementsByName("waktu_mulai_peminjaman")[0].min = jammulaipeminjamanconvert;
+</script>
 </body>
 </html>

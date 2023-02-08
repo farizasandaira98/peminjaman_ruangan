@@ -26,9 +26,12 @@
 
                 <form method="post" action="/dataruangan/update/{{ $dataruangan->id }}" >
                     {{ csrf_field() }}
+                    @php
+                    $namaruangan = $dataruangan->nama_ruangan;
+                    @endphp
                     <div class="form-group">
                         <label>Nama Ruangan</label>
-                        <input type="text" name="nama_ruangan" class="form-control" value={{ $dataruangan->nama_ruangan }} placeholder="Nama Ruangan ..">
+                        <input type="text" name="nama_ruangan" class="form-control" value='<?=$dataruangan->nama_ruangan?>'placeholder="Nama Ruangan ..">
 
                         @if($errors->has('nama_ruangan'))
                         <div class="text-danger">
@@ -44,26 +47,6 @@
                         @if($errors->has('kapasitas'))
                         <div class="text-danger">
                             {{ $errors->first('kapasitas')}}
-                        </div>
-                        @endif
-                    </div>
-
-                    <div class="form-group">
-                            <label>Status Peminjaman</label>
-                            <select class="form-control" id="status_peminjaman" name="status_peminjaman">
-                            @if($dataruangan->status_peminjaman === "Tersedia")
-                            <option value="Tersedia">Tersedia</option>
-                            <option value="Di Pinjam">Di Pinjam</option>
-                            @elseif($dataruangan->status_peminjaman === "Di Pinjam")
-                            <option value="Di Pinjam">Di Pinjam</option>
-                            <option value="Tersedia">Tersedia</option>
-                            @endif
-                        </select>
-
-
-                        @if($errors->has('status_peminjaman'))
-                        <div class="text-danger">
-                            {{ $errors->first('status_peminjaman')}}
                         </div>
                         @endif
                     </div>

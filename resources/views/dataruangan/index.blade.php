@@ -37,7 +37,6 @@
                         <th>No</th>
                         <th>Nama Ruangan</th>
                         <th>Kapasitas</th>
-                        <th>Status Peminjaman</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -47,7 +46,6 @@
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $ang->nama_ruangan }}</td>
                       <td>{{ $ang->kapasitas }} Orang</td>
-                      <td>{{ $ang->status_peminjaman }}</td>
                       <td>
                         <a href="/dataruangan/edit/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Edit</a></br></br>
                         <a href="/dataruangan/destroy/{{ $ang->id }}" class="btn btn-danger" style="width:100%;">Hapus</a></br></br>
@@ -83,6 +81,7 @@
                 </br>
                 @endif
             </br>
+            <h2>Data Ruangan</h2>
         </br>
         <div class="card">
           <div class="card-body">
@@ -92,7 +91,6 @@
                         <th>No</th>
                         <th>Nama Ruangan</th>
                         <th>Kapasitas</th>
-                        <th>Status Peminjaman</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -102,11 +100,8 @@
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $ang->nama_ruangan }}</td>
                       <td>{{ $ang->kapasitas }} Orang</td>
-                      <td>{{ $ang->status_peminjaman }}</td>
                       <td>
-                        @if($ang->status_peminjaman === "Tersedia")
-                        <a href="/pinjamruangan{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Pinjam Ruangan</a></br></br>
-                        @endif
+                        <a href="/datapeminjaman/create/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Pinjam Ruangan</a></br></br>
                         <a href="/dataruangan/inventaris/{{ $ang->id }}" class="btn btn-primary" style="width:100%;">Lihat Inventaris Ruangan</a>
                       </td>
                       </tr>

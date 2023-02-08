@@ -41,12 +41,13 @@ class DataRuanganController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama_ruangan' => 'required',
+            'nama_ruangan' => 'required|unique:data_ruangan,nama_ruangan',
             'kapasitas' => 'required',
         ];
 
         $messages = [
             'nama_ruangan.required'          => 'Nama Ruangan Wajib Diisi',
+            'nama_ruangan.unique'          => 'Nama Ruangan Telah Digunakan',
             'kapasitas.required'          => 'Kapasitas wajib diisi',
         ];
 
@@ -56,12 +57,9 @@ class DataRuanganController extends Controller
           return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
 
-        $statuspeminjaman = "Tersedia";
-
         $simpan = DataRuangan::create([
             'nama_ruangan' => $request->nama_ruangan,
             'kapasitas' => $request->kapasitas,
-            'status_peminjaman' => $statuspeminjaman,
         ]);
 
         if($simpan){
@@ -99,13 +97,11 @@ class DataRuanganController extends Controller
         $rules = [
             'nama_ruangan' => 'required',
             'kapasitas' => 'required',
-            'status_peminjaman' => 'required',
         ];
 
         $messages = [
             'nama_ruangan.required'          => 'Nama Ruangan Wajib Diisi',
             'kapasitas.required'          => 'Kapasitas wajib diisi',
-            'status_peminjaman.required'          => 'Status Peminjaman wajib diisi',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -118,7 +114,6 @@ class DataRuanganController extends Controller
 
         $dataruangan->nama_ruangan = $request->nama_ruangan;
         $dataruangan->kapasitas = $request->kapasitas;
-        $dataruangan->status_peminjaman = $request->status_peminjaman;
         $simpan = $dataruangan->save();
 
         if($simpan){

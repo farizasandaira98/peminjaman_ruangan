@@ -39,10 +39,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::prefix('datapeminjaman')->group(function() {
         Route::get('/', [App\Http\Controllers\DataPeminjamanController::class, 'index'])->name('datapeminjaman.index');
-        Route::get('/create', [App\Http\Controllers\DataPeminjamanController::class, 'create'])->name('datapeminjaman.create');
+        Route::get('/create/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'create'])->name('datapeminjaman.createuser');
+        Route::get('/create', [App\Http\Controllers\DataPeminjamanController::class, 'createadmin'])->name('datapeminjaman.create');
         Route::post('/store', [App\Http\Controllers\DataPeminjamanController::class, 'store'])->name('datapeminjaman.store');
-        Route::get('/edit/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'edit'])->name('datapeminjaman.edit');
-        Route::post('/update/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'update'])->name('datapeminjaman.update');
         Route::get('/destroy/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'destroy'])->name('datapeminjaman.destroy');
     });
 

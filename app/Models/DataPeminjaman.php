@@ -17,7 +17,7 @@ class DataPeminjaman extends Model
     public $table = "data_peminjaman";
 
     protected $fillable = [
-       'nama_peminjam','nip','nomor_telepon','status_kembali_kunci','keperluan_peminjaman',
-       'id_ruangan'
+       'nama_peminjam','nip','nomor_telepon','keperluan_peminjaman',
+       'id_ruangan','waktu_mulai_peminjaman','waktu_akhir_peminjaman'
     ];
 }
