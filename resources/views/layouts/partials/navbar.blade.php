@@ -9,7 +9,6 @@
           <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
           <li><a href="/dataruangan" class="nav-link px-2 text-white">Data Ruangan</a></li>
           <li><a href="/datapeminjaman" class="nav-link px-2 text-white">Data Peminjam</a></li>
-          <li><a href="/tentang" class="nav-link px-2 text-white">Tentang</a></li>
         </ul>
 
         {{-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
