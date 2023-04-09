@@ -43,7 +43,7 @@
                     <tbody>
                     @foreach($dataruangan as $ang)
                       <tr>
-                      <td>{{ $loop->iteration }}</td>
+                      <td>{{($dataruangan->currentPage() - 1) * $dataruangan->perPage() + $loop->iteration}}</td>
                       <td>{{ $ang->nama_ruangan }}</td>
                       <td>{{ $ang->kapasitas }} Orang</td>
                       <td>
@@ -97,7 +97,7 @@
                     <tbody>
                     @foreach($dataruangan as $ang)
                       <tr>
-                      <td>{{ $loop->iteration }}</td>
+                      <td>{{($dataruangan->currentPage() - 1) * $dataruangan->perPage() + $loop->iteration}}</td>
                       <td>{{ $ang->nama_ruangan }}</td>
                       <td>{{ $ang->kapasitas }} Orang</td>
                       <td>

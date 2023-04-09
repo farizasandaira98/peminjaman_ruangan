@@ -47,7 +47,7 @@
                     <tbody>
                     @foreach($datapeminjaman as $ang)
                       <tr>
-                      <td>{{ $loop->iteration }}</td>
+                      <td>{{($datapeminjaman->currentPage() - 1) * $datapeminjaman->perPage() + $loop->iteration}}</td>
                       <td>{{ $ang->nama_peminjam }}</td>
                       <td>{{ $ang->nip }}</td>
                       <td>{{ $ang->nomor_telepon }}</td>
@@ -121,7 +121,7 @@
                 <tbody>
                     @foreach($datapeminjaman as $ang)
                     <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{($datapeminjaman->currentPage() - 1) * $datapeminjaman->perPage() + $loop->iteration}}</td>
                     <td>{{ $ang->nama_peminjam }}</td>
                     <td>{{ $ang->nip }}</td>
                     <td>{{ $ang->nomor_telepon }}</td>

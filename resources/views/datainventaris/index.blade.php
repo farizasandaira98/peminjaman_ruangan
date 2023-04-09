@@ -44,7 +44,7 @@
                     <tbody>
                     @foreach($datainventaris as $ang)
                       <tr>
-                      <td>{{ $loop->iteration }}</td>
+                      <td>{{($datainventaris->currentPage() - 1) * $datainventaris->perPage() + $loop->iteration}}</td>
                       <td>{{ $ang->nama_barang }}</td>
                       <td>{{ $ang->jumlah_barang }}</td>
                       <td>{{ $ang->kualitas_barang }}</td>
@@ -101,7 +101,7 @@
                 <tbody>
                 @foreach($datainventaris as $ang)
                   <tr>
-                  <td>{{ $loop->iteration }}</td>
+                  <td>{{($datainventaris->currentPage() - 1) * $datainventaris->perPage() + $loop->iteration}}</td>
                   <td>{{ $ang->nama_barang }}</td>
                   <td>{{ $ang->jumlah_barang }}</td>
                   <td>{{ $ang->kualitas_barang }}</td>
