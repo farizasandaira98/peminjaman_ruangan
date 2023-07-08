@@ -6,7 +6,7 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         <img class="mb-4" src="{!! url('images/bootstrap-logo.svg') !!}" alt="" width="72" height="57">
 
-        <h1 class="h3 mb-3 fw-normal">Daftar Admin Sistem</h1>
+        <h1 class="h3 mb-3 fw-normal">Daftar Peminjam Dalam Sistem</h1>
 
         <div class="form-group form-floating mb-3">
             <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="name@example.com" required="required" autofocus>
@@ -17,10 +17,10 @@
         </div>
 
         <div class="form-group form-floating mb-3">
-            <input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Username" required="required" autofocus>
-            <label for="floatingName">Nama Pengguna</label>
-            @if ($errors->has('username'))
-                <span class="text-danger text-left">{{ $errors->first('username') }}</span>
+            <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" placeholder="Nama" required="required" autofocus>
+            <label for="floatingName">Nama</label>
+            @if ($errors->has('nama'))
+                <span class="text-danger text-left">{{ $errors->first('nama') }}</span>
             @endif
         </div>
 
@@ -33,7 +33,7 @@
         </div>
 
         <div class="form-group form-floating mb-3">
-            <input type="number" class="form-control" name="nomor_telepon" value="{{ old('nomor_telepon') }}" placeholder="Nomor Telepon" required="required" autofocus>
+            <input type="text" class="form-control" name="nomor_telepon" value="{{ old('nomor_telepon') }}" placeholder="Nomor Telepon" required="required" autofocus>
             <label for="floatingName">Nomor Telepon</label>
             @if ($errors->has('nomor_telepon'))
                 <span class="text-danger text-left">{{ $errors->first('nomor_telepon') }}</span>
@@ -59,6 +59,13 @@
         <div class="form-group form-floating mb-3">
             <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}" placeholder="Confirm Password" required="required">
             <label for="floatingConfirmPassword">Konfirmasi Sandi</label>
+            @if ($errors->has('password_confirmation'))
+                <span class="text-danger text-left">{{ $errors->first('password_confirmation') }}</span>
+            @endif
+        </div>
+
+        <div class="form-group form-floating mb-3">
+            <input type="number" class="form-control" name="role" value="1" required="required" id="role-input">
             @if ($errors->has('password_confirmation'))
                 <span class="text-danger text-left">{{ $errors->first('password_confirmation') }}</span>
             @endif

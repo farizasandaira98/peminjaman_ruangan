@@ -18,9 +18,6 @@
         @auth
           {{auth()->user()->name}}
           <div class="text-end">
-            @auth
-            <a href="#" class="btn btn-outline-light me-2">Halo {{ Auth::user()->username }}</a>
-            @endauth
             <a href="{{ route('logout.perform') }}" class="btn btn-outline-light me-2">Logout</a>
           </div>
         @endauth
