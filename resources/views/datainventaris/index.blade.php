@@ -26,7 +26,9 @@
             </br>
         <h2>Inventaris Barang {{ $namaruangan->nama_ruangan }}</h2>
         </br>
+        @if(Auth::user()->role == 1)
         <a href="/dataruangan/inventaris/{{ $id_ruangan }}/create" class="btn btn-primary">Input Data Invetaris</a>
+        @endif
         <a href="/dataruangan" class="btn btn-danger">Kembali Ke Data Ruangan</a>
         </br></br>
         <div class="card">
@@ -48,10 +50,12 @@
                       <td>{{ $ang->nama_barang }}</td>
                       <td>{{ $ang->jumlah_barang }}</td>
                       <td>{{ $ang->kualitas_barang }}</td>
+                      @if(Auth::user()->role == 1)
                       <td>
                         <a href="/dataruangan/inventaris/{{ $id_ruangan }}/edit/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Edit</a></br></br>
                         <a href="/dataruangan/inventaris/{{ $id_ruangan }}/destroy/{{ $ang->id }}" class="btn btn-danger" style="width:100%;">Hapus</a></br></br>
                       </td>
+                      @endif
                       </tr>
                       @endforeach
                     </tbody>

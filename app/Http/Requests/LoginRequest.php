@@ -25,7 +25,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required',
+            'nip' => 'required',
             'password' => 'required'
         ];
     }
@@ -42,16 +42,16 @@ class LoginRequest extends FormRequest
         // have name of "username", however, in order to support
         // logging users in with both (username and email)
         // we have to check if user has entered one or another
-        $username = $this->get('username');
+        $nip = $this->get('nip');
 
-        if ($this->isEmail($username)) {
+        if ($this->isNip($nip)) {
             return [
-                'email' => $username,
+                'nip' => $nip,
                 'password' => $this->get('password')
             ];
         }
 
-        return $this->only('username', 'password');
+        return $this->only('nip', 'password');
     }
 
     /**
@@ -61,13 +61,13 @@ class LoginRequest extends FormRequest
      * @return bool
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    private function isEmail($param)
+    private function isNip($param)
     {
         $factory = $this->container->make(ValidationFactory::class);
 
         return ! $factory->make(
-            ['username' => $param],
-            ['username' => 'email']
+            ['nip' => $param],
+            ['username' => 'nip']
         )->fails();
     }
 }

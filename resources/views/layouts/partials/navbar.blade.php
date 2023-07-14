@@ -9,6 +9,11 @@
           <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
           <li><a href="/dataruangan" class="nav-link px-2 text-white">Data Ruangan</a></li>
           <li><a href="/datapeminjaman" class="nav-link px-2 text-white">Data Peminjam</a></li>
+          @auth
+          <div class="text-end">
+            <li><a href="/datapeminjam" class="nav-link px-2 text-white">Data Peminjam</a></li>
+          </div>
+        @endauth
         </ul>
 
         {{-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -16,18 +21,17 @@
         </form> --}}
 
         @auth
-          {{auth()->user()->name}}
           <div class="text-end">
             <a href="{{ route('logout.perform') }}" class="btn btn-outline-light me-2">Logout</a>
           </div>
         @endauth
 
-        {{-- @guest
+        @guest
           <div class="text-end">
             <a href="{{ route('login.perform') }}" class="btn btn-outline-light me-2">Login</a>
-            <a href="{{ route('register.perform') }}" class="btn btn-warning">Sign-up</a>
+            <a href="{{ route('register.perform') }}" class="btn btn-warning">Daftar</a>
           </div>
-        @endguest --}}
+        @endguest
       </div>
     </div>
   </header>

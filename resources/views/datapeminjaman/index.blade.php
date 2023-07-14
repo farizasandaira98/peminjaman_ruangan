@@ -68,7 +68,9 @@
                         {{ $hariindonesia }} {{ $ang->waktu_akhir_peminjaman }}
                         </td>
                       <td>
+                        @if(Auth::user()->role == 1)
                         <a href="/datapeminjaman/destroy/{{ $ang->id }}" class="btn btn-danger" style="width:100%;">Hapus</a></br></br>
+                        @endif
                       </td>
                       </tr>
                       @endforeach

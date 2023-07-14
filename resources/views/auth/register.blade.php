@@ -5,9 +5,14 @@
 
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         <img class="mb-4" src="{!! url('images/bootstrap-logo.svg') !!}" alt="" width="72" height="57">
-
+        @auth
+        @if(Auth::user()->role = 1 )
+        <h1 class="h3 mb-3 fw-normal">Daftar Pengelola Dalam Sistem</h1>
+        @endif
+        @endauth
+        @guest
         <h1 class="h3 mb-3 fw-normal">Daftar Peminjam Dalam Sistem</h1>
-
+        @endguest
         <div class="form-group form-floating mb-3">
             <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="name@example.com" required="required" autofocus>
             <label for="floatingEmail">Email</label>
@@ -64,13 +69,24 @@
             @endif
         </div>
 
+        @auth
+        @if(Auth::user()->role = 1 )
         <div class="form-group form-floating mb-3">
-            <input type="number" class="form-control" name="role" value="1" required="required" id="role-input">
+            <input hidden type="number" class="form-control" name="role" value="1" required="required">
             @if ($errors->has('password_confirmation'))
                 <span class="text-danger text-left">{{ $errors->first('password_confirmation') }}</span>
             @endif
         </div>
-
+        @endif
+        @endauth
+        @guest
+        <div class="form-group form-floating mb-3">
+            <input hidden type="number" class="form-control" name="role" value="2" required="required">
+            @if ($errors->has('password_confirmation'))
+                <span class="text-danger text-left">{{ $errors->first('password_confirmation') }}</span>
+            @endif
+        </div>
+        @endguest
         <button class="w-100 btn btn-lg btn-primary" type="submit">Daftar</button>
 
         @include('auth.partials.copy')

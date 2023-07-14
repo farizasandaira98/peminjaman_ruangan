@@ -27,10 +27,15 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $user = User::create($request->validated());
+        try {
+            $user = User::create($request->validated());
 
-        auth()->login($user);
+            auth()->login($user);
 
-        return redirect('/')->with('success', "Akun Berhasil Dibuat.");
+            return redirect('/')->with(var_dump('Akun Berhasil Dibuat.'));
+
+        } catch (\Throwable $th) {
+            var_dump($th);
+        }
     }
 }

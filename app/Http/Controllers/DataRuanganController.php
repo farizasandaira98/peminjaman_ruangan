@@ -60,6 +60,7 @@ class DataRuanganController extends Controller
         $simpan = DataRuangan::create([
             'nama_ruangan' => $request->nama_ruangan,
             'kapasitas' => $request->kapasitas,
+            'status_ruangan' => 1,
         ]);
 
         if($simpan){

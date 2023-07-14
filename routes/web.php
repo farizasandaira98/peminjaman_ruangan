@@ -58,12 +58,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::group(['middleware' => ['auth']], function() {
         /**
-         * Register Routes
-         */
-        Route::get('/register_pengelola', 'RegisterController@show')->name('register.show');
-        Route::post('/register_pengelola', 'RegisterController@register')->name('register.perform');
-
-        /**
          * Logout Routes
          */
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');

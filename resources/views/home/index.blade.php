@@ -3,11 +3,11 @@
 @section('content')
     <div class="bg-light p-5 rounded">
         @auth
-            @if(Auth::user()->role = 0 )
-                <h1>Selamat Datang {{ Auth::user()->username }} </h1>
+            @if(Auth::user()->role == 1)
+                <h1>Selamat Datang {{ Auth::user()->nama }} </h1>
                 <p class="lead">Dashboard Pengelola Untuk Mengolah Data Pada Web Peminjaman Dinas PUP ESDM Daerah Istimewa Yogyakarta</p>
             @else
-                <h1>Selamat Datang {{ Auth::user()->username }}</h1>
+                <h1>Selamat Datang {{ Auth::user()->nama }} </h1>
                 <p class="lead">Dashboard Peminjam Untuk Mengelola Peminjaman Ruangan Rapat Dinas PUP ESDM Daerah Istimewa Yogyakarta</p>
             @endif
         @endauth
