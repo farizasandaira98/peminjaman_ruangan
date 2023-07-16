@@ -49,22 +49,29 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Kualitas Barang</label>
+                        <label><strong>Status Barang</strong></label>
                         <select class="form-control" id="kualitas_barang" name="kualitas_barang">
-                        @if($datainventaris->kualitas_barang === "Bagus")
-                        <option value="Bagus">Bagus</option>
-                        <option value="Rusak">Rusak</option>
-                        @elseif($datainventaris->kualitas_barang === "Rusak")
-                        <option value="Rusak">Rusak</option>
-                        <option value="Bagus">Bagus</option>
+                            @php
+                            $statusOptions = [
+                                1 => 'Bagus',
+                                2 => 'Rusak',
+                            ];
+                            @endphp
+
+                            @foreach($statusOptions as $value => $label)
+                                <option value="{{ $value }}" {{ $datainventaris->kualitas_barang == $value ? 'selected' : '' }}>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @if($errors->has('kualitas_ruangan'))
+                            <div class="text-danger">
+                                {{ $errors->first('kualitas_ruangan') }}
+                            </div>
                         @endif
-                    </select>
-                    @if($errors->has('kualitas_barang'))
-                        <div class="text-danger">
-                            {{ $errors->first('kualitas_barang')}}
-                        </div>
-                        @endif
-                </br>
+                    </div>
+
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Simpan">
             </div>

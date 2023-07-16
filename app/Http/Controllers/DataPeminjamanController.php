@@ -14,19 +14,19 @@ class DataPeminjamanController extends Controller
 {
     public static function transaltehari($hari)
     {
-        if($hari === "Sunday"){
+        if ($hari === "Sunday") {
             $hariindonesia = "Minggu";
-        }elseif ($hari === "Monday") {
+        } elseif ($hari === "Monday") {
             $hariindonesia = "Senin";
-        }elseif ($hari === "Tuesday") {
+        } elseif ($hari === "Tuesday") {
             $hariindonesia = "Selasa";
-        }elseif ($hari === "Wednesday") {
+        } elseif ($hari === "Wednesday") {
             $hariindonesia = "Rabu";
-        }elseif ($hari === "Thursday") {
+        } elseif ($hari === "Thursday") {
             $hariindonesia = "Kamis";
-        }elseif ($hari === "Friday") {
+        } elseif ($hari === "Friday") {
             $hariindonesia = "Jumat";
-        }elseif ($hari === "Saturday") {
+        } elseif ($hari === "Saturday") {
             $hariindonesia = "Sabtu";
         }
 
@@ -43,7 +43,7 @@ class DataPeminjamanController extends Controller
     {
         $datapeminjaman = DataPeminjaman::paginate(5);
         return view('/datapeminjaman/index')
-        ->with(compact('datapeminjaman'));
+            ->with(compact('datapeminjaman'));
     }
 
     /**
@@ -55,11 +55,11 @@ class DataPeminjamanController extends Controller
     {
         $dalamrentangwaktu = null;
         $dataruangan = DataRuangan::all();
-        $ruangan = DataRuangan::where("id","=",$id)->first();
+        $ruangan = DataRuangan::where("id", "=", $id)->first();
         return view('/datapeminjaman/create')
-        ->with(compact("dataruangan"))
-        ->with(compact("dalamrentangwaktu"))
-        ->with(compact("ruangan"));
+            ->with(compact("dataruangan"))
+            ->with(compact("dalamrentangwaktu"))
+            ->with(compact("ruangan"));
     }
 
     public function createadmin()
@@ -68,9 +68,9 @@ class DataPeminjamanController extends Controller
         $dataruangan = DataRuangan::all();
         $ruangan = null;
         return view('/datapeminjaman/create')
-        ->with(compact("dataruangan"))
-        ->with(compact("dalamrentangwaktu"))
-        ->with(compact("ruangan"));
+            ->with(compact("dataruangan"))
+            ->with(compact("dalamrentangwaktu"))
+            ->with(compact("ruangan"));
     }
 
     /**
@@ -82,27 +82,24 @@ class DataPeminjamanController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama_peminjam' => 'required',
-            'nip' => 'required',
-            'nomor_telepon' => 'required',
-            'keperluan_peminjaman' => 'required',
             'id_ruangan' => 'required',
+            'keperluan_peminjaman' => 'required',
             'waktu_mulai_peminjaman' => 'required',
+            'waktu_akhir_peminjaman' => 'required',
+
         ];
 
         $messages = [
-            'nama_peminjam.required'          => 'Nama Peminjaman Wajib Diisi',
-            'nip.required'          => 'NIP wajib diisi',
-            'nomor_telepon.required'          => 'Nomor Telepon wajib diisi',
+            'id_ruangan.required'          => 'Ruangan Wajib Diisi',
             'keperluan_peminjaman.required'          => 'Keperluan Peminjaman Wajib wajib diisi',
-            'id_ruangan.required'          => 'Ruangan Yang Akan Dipinjam Wajib Wajib Dipilih',
             'waktu_mulai_peminjaman.required'          => 'Waktu Mulai Peminjaman Wajib Diisi',
+            'waktu_akhir_peminjaman.required'          => 'Waktu Akhir Peminjaman Wajib Diisi',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        if($validator->fails()){
-          return redirect()->back()->withErrors($validator)->withInput($request->all);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
 
         $inthour = (int)$request->waktu_peminjaman;
@@ -117,13 +114,13 @@ class DataPeminjamanController extends Controller
                 $dalamrentangwaktu = "Ruangan Telah Dipinjam Dalam Rentang Waktu Ini";
                 if (Auth::user()) {
                     $ruangan = null;
-                }else {
-                    $ruangan = DataRuangan::where("id","=",$request->id_ruangan)->first();
+                } else {
+                    $ruangan = DataRuangan::where("id", "=", $request->id_ruangan)->first();
                 }
                 return view('/datapeminjaman/create')
-                ->with(compact("dalamrentangwaktu"))
-                ->with(compact("dataruangan"))
-                ->with(compact("ruangan"));
+                    ->with(compact("dalamrentangwaktu"))
+                    ->with(compact("dataruangan"))
+                    ->with(compact("ruangan"));
             }
         }
         $simpan = DataPeminjaman::create([
@@ -136,14 +133,13 @@ class DataPeminjamanController extends Controller
             'waktu_akhir_peminjaman' => $waktu_akhir_peminjaman,
         ]);
 
-        if($simpan){
+        if ($simpan) {
             Session::flash('success', 'Data Peminjaman Berhasil Ditambahkan');
             return redirect('/datapeminjaman');
         } else {
             Session::flash('errors', ['' => 'Terjadi Kesalahan... ']);
             return redirect('/datapeminjaman');
         }
-
     }
 
     /**
@@ -157,7 +153,7 @@ class DataPeminjamanController extends Controller
         $datapeminjaman = DataPeminjaman::where('id', $id)->first();
         $datapeminjaman->delete();
 
-        if($datapeminjaman){
+        if ($datapeminjaman) {
             Session::flash('success', 'Data Ruangan Berhasil Dihapus');
             return redirect('/datapeminjaman');
         } else {

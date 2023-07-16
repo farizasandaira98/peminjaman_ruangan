@@ -98,11 +98,13 @@ class DataRuanganController extends Controller
         $rules = [
             'nama_ruangan' => 'required',
             'kapasitas' => 'required',
+            'status_ruangan' => 'required',
         ];
 
         $messages = [
             'nama_ruangan.required'          => 'Nama Ruangan Wajib Diisi',
             'kapasitas.required'          => 'Kapasitas wajib diisi',
+            'status_ruangan.required'          => 'Status Ruangan wajib pilih',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -115,6 +117,7 @@ class DataRuanganController extends Controller
 
         $dataruangan->nama_ruangan = $request->nama_ruangan;
         $dataruangan->kapasitas = $request->kapasitas;
+        $dataruangan->status_ruangan = $request->status_ruangan;
         $simpan = $dataruangan->save();
 
         if($simpan){

@@ -49,7 +49,13 @@
                       <td>{{($datainventaris->currentPage() - 1) * $datainventaris->perPage() + $loop->iteration}}</td>
                       <td>{{ $ang->nama_barang }}</td>
                       <td>{{ $ang->jumlah_barang }}</td>
-                      <td>{{ $ang->kualitas_barang }}</td>
+                      <td>
+                        @if ($ang->kualitas_barang == 1)
+                        Bagus
+                        @else
+                        Rusak
+                        @endif
+                      </td>
                       @if(Auth::user()->role == 1)
                       <td>
                         <a href="/dataruangan/inventaris/{{ $id_ruangan }}/edit/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Edit</a></br></br>
@@ -108,7 +114,13 @@
                   <td>{{($datainventaris->currentPage() - 1) * $datainventaris->perPage() + $loop->iteration}}</td>
                   <td>{{ $ang->nama_barang }}</td>
                   <td>{{ $ang->jumlah_barang }}</td>
-                  <td>{{ $ang->kualitas_barang }}</td>
+                  <td>
+                    @if ($ang->kualitas_barang == 1)
+                    Bagus
+                    @else
+                    Rusak
+                    @endif
+                  </td>
                   </tr>
                   @endforeach
                 </tbody>

@@ -48,21 +48,6 @@
                         @endif
                     </div>
 
-                    {{-- <div class="form-group">
-                            <label><strong>Status Peminjaman</strong></label>
-                            <select class="form-control" id="status_peminjaman" name="status_peminjaman">
-                            <option value="Tersedia">Tersedia</option>
-                            <option value="Di Pinjam">Di Pinjam</option>
-                        </select>
-
-
-                        @if($errors->has('status_peminjaman'))
-                        <div class="text-danger">
-                            {{ $errors->first('status_peminjaman')}}
-                        </div>
-                        @endif
-                    </div> --}}
-
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Simpan">
             </div>

@@ -51,8 +51,8 @@
                     <div class="form-group">
                         <label>Kualitas Barang</label>
                         <select class="form-control" id="kualitas_barang" name="kualitas_barang">
-                        <option value="Bagus">Bagus</option>
-                        <option value="Rusak">Rusak</option>
+                        <option value=1>Bagus</option>
+                        <option value=2>Rusak</option>
                     </select>
                     @if($errors->has('kualitas_barang'))
                         <div class="text-danger">

@@ -51,6 +51,32 @@
                         @endif
                     </div>
 
+                    <div class="form-group">
+                        <label><strong>Status Ruangan</strong></label>
+                        <select class="form-control" id="status_ruangan" name="status_ruangan">
+                            @php
+                            $statusOptions = [
+                                1 => 'Ruangan Tersedia',
+                                2 => 'Ruangan Sedang Dipinjam',
+                                3 => 'Ruangan Sedang Dalam Perbaikan',
+                            ];
+                            @endphp
+
+                            @foreach($statusOptions as $value => $label)
+                                <option value="{{ $value }}" {{ $dataruangan->status_ruangan == $value ? 'selected' : '' }}>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @if($errors->has('status_ruangan'))
+                            <div class="text-danger">
+                                {{ $errors->first('status_ruangan') }}
+                            </div>
+                        @endif
+                    </div>
+
+
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Simpan">
             </div>
