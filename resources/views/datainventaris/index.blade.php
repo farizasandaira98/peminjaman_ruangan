@@ -40,7 +40,9 @@
                         <th>Nama Barang</th>
                         <th>Jumlah Barang</th>
                         <th>Kualitas Barang</th>
+                        @if(Auth::user()->role == 1)
                         <th>Aksi</th>
+                        @endif
                       </tr>
                     </thead>
                     <tbody>

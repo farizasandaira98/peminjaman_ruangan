@@ -14,17 +14,17 @@
             <div class="card-body">
 
                 @if ($message = Session::get('error'))
-                <div class="alert alert-danger alert-block">
-                 <button type="button" class="close" data-dismiss="alert"></button>
-                <strong>{{ $message }}</strong>
-                </div>
+                    <div class="alert alert-danger alert-block">
+                        <button type="button" class="close" data-dismiss="alert"></button>
+                        <strong>{{ $message }}</strong>
+                    </div>
                 @endif
 
-                @if ($dalamrentangwaktu !== null)
-                <div class="alert alert-danger alert-block">
-                 <button type="button" class="close" data-dismiss="alert"></button>
-                 <strong>{{ $dalamrentangwaktu }}</strong>
-                </div>
+                @if($errors->has('pesan'))
+                    <div class="alert alert-danger alert-block">
+                        <button type="button" class="close" data-dismiss="alert"></button>
+                        <strong>{{ $errors->first('pesan')}}</strong>
+                    </div>
                 @endif
 
                 <a href="/datapeminjaman" class="btn btn-primary">Kembali</a>
@@ -34,18 +34,6 @@
 
                 <form method="post" action="/datapeminjaman/store" >
                     {{ csrf_field() }}
-                    <div class="form-group">
-                        <label>Nama Peminjam</label>
-                        <input type="text" name="nama_peminjam" class="form-control" placeholder="Nama Peminjam ..">
-
-                        @if($errors->has('nama_peminjam'))
-                        <div class="text-danger">
-                            {{ $errors->first('nama_peminjam')}}
-                        </div>
-                        @endif
-                    </div>
-
-
                     <div class="form-group">
                         <label>Keperluan Peminjaman</label>
                         <input type="text" name="keperluan_peminjaman" class="form-control" placeholder="Keperluan Peminjaman ..">
@@ -81,7 +69,6 @@
 
                     <div class="form-group">
                         <label>Waktu Mulai Peminjaman</label>
-                        <p style="color: red"> * Peminjaman Ruangan Hanya Dapat Dilakukan Dari Jam 08:00</p>
                         <input type="datetime-local" name="waktu_mulai_peminjaman" id="waktu_mulai_peminjaman" class="form-control">
                         @if($errors->has('waktu_mulai_peminjaman'))
                             <div class="text-danger">
@@ -94,9 +81,9 @@
                     <label>Waktu Akhir Peminjaman</label>
                     <input type="datetime-local" name="waktu_akhir_peminjaman" id="waktu_akhir_peminjaman" max="12:00:00" class="form-control">
 
-                    @if($errors->has('waktu_mulai_peminjaman'))
+                    @if($errors->has('waktu_akhir_peminjaman'))
                     <div class="text-danger">
-                        {{ $errors->first('waktu_mulai_peminjaman')}}
+                        {{ $errors->first('waktu_akhir_peminjaman')}}
                     </div>
                     @endif
                 </div>

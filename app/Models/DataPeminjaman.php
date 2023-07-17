@@ -14,10 +14,14 @@ class DataPeminjaman extends Model
         return $this->belongsTo(DataRuangan::class,'id_ruangan');
     }
 
+    public function datapeminjam()
+    {
+        return $this->belongsTo(User::class,'id_peminjam');
+    }
+
     public $table = "data_peminjaman";
 
     protected $fillable = [
-       'nama_peminjam','nip','nomor_telepon','keperluan_peminjaman',
-       'id_ruangan','waktu_mulai_peminjaman','waktu_akhir_peminjaman'
+        'id_peminjam','id_ruangan','keperluan_peminjaman','waktu_mulai_peminjaman','waktu_akhir_peminjaman'
     ];
 }

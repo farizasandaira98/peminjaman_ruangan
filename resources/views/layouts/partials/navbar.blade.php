@@ -8,11 +8,13 @@
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
           <li><a href="/dataruangan" class="nav-link px-2 text-white">Data Ruangan</a></li>
-          <li><a href="/datapeminjaman" class="nav-link px-2 text-white">Data Peminjam</a></li>
+          <li><a href="/datapeminjaman" class="nav-link px-2 text-white">Data Peminjaman</a></li>
           @auth
+          @if(Auth::user()->role == 1)
           <div class="text-end">
             <li><a href="/datapeminjam" class="nav-link px-2 text-white">Data Peminjam</a></li>
           </div>
+          @endif
         @endauth
         </ul>
 

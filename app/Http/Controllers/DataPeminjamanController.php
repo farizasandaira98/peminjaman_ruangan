@@ -53,23 +53,25 @@ class DataPeminjamanController extends Controller
      */
     public function create($id)
     {
-        $dalamrentangwaktu = null;
-        $dataruangan = DataRuangan::all();
+        $dataruangan = DataRuangan::where('status_ruangan', 1)->get();
+        if($dataruangan->isEmpty()){
+            return redirect()->back()->withErrors(['pesan' => 'Data Ruangan Tidak Ada Yang Tersedia']);
+        };
         $ruangan = DataRuangan::where("id", "=", $id)->first();
         return view('/datapeminjaman/create')
             ->with(compact("dataruangan"))
-            ->with(compact("dalamrentangwaktu"))
             ->with(compact("ruangan"));
     }
 
     public function createadmin()
     {
-        $dalamrentangwaktu = null;
-        $dataruangan = DataRuangan::all();
+        $dataruangan = DataRuangan::where('status_ruangan', 1)->get();
+        if($dataruangan->isEmpty()){
+            return redirect()->back()->withErrors(['pesan' => 'Tidak Ada Ruangan Yang Tersedia']);
+        }
         $ruangan = null;
         return view('/datapeminjaman/create')
             ->with(compact("dataruangan"))
-            ->with(compact("dalamrentangwaktu"))
             ->with(compact("ruangan"));
     }
 
@@ -102,41 +104,43 @@ class DataPeminjamanController extends Controller
             return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
 
-        $inthour = (int)$request->waktu_peminjaman;
-        $waktu_akhir_peminjaman = Carbon::parse($request->waktu_mulai_peminjaman)->addHour($inthour);
         $intidruangan = (int)$request->id_ruangan;
-        $convertdatepeminjaman = Carbon::parse($request->waktu_mulai_peminjaman);
-
+        $convertwaktumulaipeminjaman = Carbon::parse($request->waktu_mulai_peminjaman);
+        $convertwaktuakhirpeminjaman = Carbon::parse($request->waktu_akhir_peminjaman);
+        $start = Carbon::createFromFormat('Y-m-d\TH:i', $request->waktu_mulai_peminjaman)->setTime(8, 0, 0);
+        $end = Carbon::createFromFormat('Y-m-d\TH:i', $request->waktu_mulai_peminjaman)->setTime(16, 0, 0);
         $datatimepeminjaman = DataPeminjaman::all();
         $dataruangan = DataRuangan::all();
+
+        if ($convertwaktumulaipeminjaman < $start || $convertwaktumulaipeminjaman > $end) {
+            return redirect()->back()->withErrors(['waktu_mulai_peminjaman' => 'Waktu mulai peminjaman hanya dari jam 08.00 S/d 16.00'])->withInput($request->all());
+        }
+
+        if($convertwaktuakhirpeminjaman > $end){
+            return redirect()->back()->withErrors(['waktu_akhir_peminjaman' => 'Waktu Akhir Peminjaman tidak boleh lebih dari jam 16.00'])->withInput($request->all());
+        }
+
         foreach ($datatimepeminjaman as $ang) {
-            if ($convertdatepeminjaman >= $ang->waktu_mulai_peminjaman && $convertdatepeminjaman <= $ang->waktu_akhir_peminjaman && $intidruangan == $ang->id_ruangan) {
-                $dalamrentangwaktu = "Ruangan Telah Dipinjam Dalam Rentang Waktu Ini";
-                if (Auth::user()) {
-                    $ruangan = null;
-                } else {
-                    $ruangan = DataRuangan::where("id", "=", $request->id_ruangan)->first();
-                }
-                return view('/datapeminjaman/create')
-                    ->with(compact("dalamrentangwaktu"))
-                    ->with(compact("dataruangan"))
-                    ->with(compact("ruangan"));
+            if ($convertwaktumulaipeminjaman >= $ang->waktu_mulai_peminjaman && $convertwaktumulaipeminjaman <= $ang->waktu_akhir_peminjaman && $intidruangan == $ang->id_ruangan) {
+                return redirect()->back()->withErrors(['pesan' => 'Ruangan Telah Dipinjam, Silahkan Pinjam Ruangan Lain Yang Tersedia, Atau Pinjam Direntang Waktu Lain'])->withInput($request->all());
             }
         }
         $simpan = DataPeminjaman::create([
-            'nama_peminjam' => $request->nama_peminjam,
-            'nip' => $request->nip,
-            'nomor_telepon' => $request->nomor_telepon,
-            'keperluan_peminjaman' => $request->keperluan_peminjaman,
+            'id_peminjam' => Auth::user()->id,
             'id_ruangan' => $request->id_ruangan,
+            'keperluan_peminjaman' => $request->keperluan_peminjaman,
             'waktu_mulai_peminjaman' => $request->waktu_mulai_peminjaman,
-            'waktu_akhir_peminjaman' => $waktu_akhir_peminjaman,
+            'waktu_akhir_peminjaman' => $request->waktu_akhir_peminjaman,
         ]);
 
-        if ($simpan) {
+        $dataruangan = DataRuangan::where('id', $request->id_ruangan)->first();
+        $dataruangan->status_ruangan = 2;
+        $simpandataruangan = $dataruangan->save();
+
+        if ($simpan && $simpandataruangan) {
             Session::flash('success', 'Data Peminjaman Berhasil Ditambahkan');
             return redirect('/datapeminjaman');
-        } else {
+        } else if (!$simpan || !$simpandataruangan){
             Session::flash('errors', ['' => 'Terjadi Kesalahan... ']);
             return redirect('/datapeminjaman');
         }

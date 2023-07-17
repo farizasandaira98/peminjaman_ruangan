@@ -37,12 +37,18 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     });
 
+    Route::get('/datapeminjaman', [App\Http\Controllers\DataPeminjamanController::class, 'index'])->name('datapeminjaman.index');
+
     Route::group(['middleware' => ['auth'], 'prefix' => 'datapeminjaman'], function() {
-        Route::get('/', [App\Http\Controllers\DataPeminjamanController::class, 'index'])->name('datapeminjaman.index');
         Route::get('/create/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'create'])->name('datapeminjaman.createuser');
         Route::get('/create', [App\Http\Controllers\DataPeminjamanController::class, 'createadmin'])->name('datapeminjaman.create');
         Route::post('/store', [App\Http\Controllers\DataPeminjamanController::class, 'store'])->name('datapeminjaman.store');
         Route::get('/destroy/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'destroy'])->name('datapeminjaman.destroy');
+    });
+
+    Route::group(['middleware' => ['auth'], 'prefix' => 'datapeminjam'], function() {
+        Route::get('/', [App\Http\Controllers\PeminjamController::class, 'index'])->name('peminjam.index');
+        Route::get('/hapus/{id}', [App\Http\Controllers\PeminjamController::class, 'destroy'])->name('peminjam.destroy');
     });
 
 
