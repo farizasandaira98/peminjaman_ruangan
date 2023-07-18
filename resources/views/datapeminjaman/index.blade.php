@@ -10,22 +10,25 @@
             @auth
             @if ($message = Session::get('success'))
                 </br>
-                    <div class="alert alert-success alert-block">
+                <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
                     <strong>{{ $message }}</strong>
+                    <button class="btn btn-danger float-right" onclick="window.location.href='{{ route('datapeminjaman.index') }}'">X</button>
                     </div>
                 </br>
             @endif
-            @if ($message = Session::get('error'))
+            @if($message = Session::get('error'))
                 </br>
-                    <div class="alert alert-danger alert-block">
+                <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
                     <strong>{{ $message }}</strong>
+                    <button class="btn btn-danger float-right" onclick="window.location.href='{{ route('datapeminjaman.index') }}'">X</button>
                     </div>
                 </br>
             @endif
-            @if($errors->has('pesan'))
+            @if($pesan != null)
                 </br>
-                    <div class="alert alert-danger alert-block">
-                    <strong>{{ $errors->first('pesan')}}</strong>
+                    <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
+                    <strong>{{ $pesan }}</strong>
+                    <button class="btn btn-danger float-right" onclick="window.location.href='{{ route('datapeminjaman.index') }}'">X</button>
                     </div>
                 </br>
             @endif
@@ -38,17 +41,18 @@
           <div class="card-body">
                   <table>
                     <thead>
-                        <form class="form-inline" action="" method="GET">
+                        <form class="form-inline" action="/datapeminjaman/cari" method="GET">
+                            <center><h5>Cari Rentang Waktu Peminjaman</h5></center>
                             <div class="form-group">
-                                <input type="datetime-local" name="waktu_akhir_peminjaman" id="waktu_akhir_peminjaman" max="12:00:00" class="form-control">
+                                <input type="date" name="start" id="start" class="form-control">
                                 <br>
                             </div>
                             <div class="form-group">
-                                <input type="datetime-local" name="waktu_akhir_peminjaman" id="waktu_akhir_peminjaman" max="12:00:00" class="form-control">
+                                <input type="date" name="end" id="end" class="form-control">
                                 <br>
                             </div>
                             <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button style="width: 100%" type="submit" class="btn btn-primary">Cari</button>
                         </div>
                         </form>
                         <br>

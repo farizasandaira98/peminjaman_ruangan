@@ -15,7 +15,6 @@
                 </div>
                 </br>
                 @endif
-
                 @if ($message = Session::get('error'))
                 </br>
                 <div class="alert alert-danger alert-block">

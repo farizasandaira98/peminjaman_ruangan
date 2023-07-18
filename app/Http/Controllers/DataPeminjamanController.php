@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isEmpty;
+
 class DataPeminjamanController extends Controller
 {
     public static function transaltehari($hari)
@@ -42,8 +44,10 @@ class DataPeminjamanController extends Controller
     public function index()
     {
         $datapeminjaman = DataPeminjaman::paginate(5);
+        $pesan = null;
         return view('/datapeminjaman/index')
-            ->with(compact('datapeminjaman'));
+            ->with(compact('datapeminjaman'))
+            ->with(compact('pesan'));
     }
 
     /**
@@ -54,9 +58,13 @@ class DataPeminjamanController extends Controller
     public function create($id)
     {
         $dataruangan = DataRuangan::where('status_ruangan', 1)->get();
+        $datapeminjaman = DataPeminjaman::paginate(5);
+        $pesan = "Data Ruangan Tidak Ada Yang Tersedia";
         if($dataruangan->isEmpty()){
-            return redirect()->back()->withErrors(['pesan' => 'Data Ruangan Tidak Ada Yang Tersedia']);
-        };
+            return view('/datapeminjaman/index')
+            ->with(compact('datapeminjaman'))
+            ->with(compact('pesan'));
+        }
         $ruangan = DataRuangan::where("id", "=", $id)->first();
         return view('/datapeminjaman/create')
             ->with(compact("dataruangan"))
@@ -66,8 +74,12 @@ class DataPeminjamanController extends Controller
     public function createadmin()
     {
         $dataruangan = DataRuangan::where('status_ruangan', 1)->get();
+        $datapeminjaman = DataPeminjaman::paginate(5);
+        $pesan = "Data Ruangan Tidak Ada Yang Tersedia";
         if($dataruangan->isEmpty()){
-            return redirect()->back()->withErrors(['pesan' => 'Tidak Ada Ruangan Yang Tersedia']);
+            return view('/datapeminjaman/index')
+            ->with(compact('datapeminjaman'))
+            ->with(compact('pesan'));
         }
         $ruangan = null;
         return view('/datapeminjaman/create')
@@ -166,11 +178,23 @@ class DataPeminjamanController extends Controller
         }
     }
 
-    // public function search(Request $request)
-    // {
-    //     $cari = $request->search;
-    //     $hasilcari = $dataruangan = DataRuangan::where('nama_ruangan','LIKE','%'.$cari.'%')
-    //     ->paginate(5);
-    //     return view('/dataruangan/index', ['dataruangan' => $hasilcari]);
-    // }
+    public function cari(Request $request)
+{
+    $start = $request->input('start');
+    $end = $request->input('end');
+
+    $hasilcari = DataPeminjaman::whereDate('waktu_mulai_peminjaman', '>=', $start)
+        ->whereDate('waktu_akhir_peminjaman', '<=', $end)
+        ->paginate(5);
+
+        if ($hasilcari->isEmpty()) {
+            return view('/datapeminjaman/index')
+            ->with(['datapeminjaman' => $hasilcari])
+            ->with(['pesan' => 'Data Tidak Ditemukan']);
+        } else {
+            return view('/datapeminjaman/index')
+            ->with(['datapeminjaman' => $hasilcari])
+            ->with(['pesan' => 'Menampilkan Pencarian Peminjaman']);
+        }
+}
 }

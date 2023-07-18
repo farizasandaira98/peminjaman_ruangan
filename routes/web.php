@@ -38,6 +38,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
 
     Route::get('/datapeminjaman', [App\Http\Controllers\DataPeminjamanController::class, 'index'])->name('datapeminjaman.index');
+    Route::get('/datapeminjaman/cari', [App\Http\Controllers\DataPeminjamanController::class, 'cari'])->name('datapeminjaman.cari');
 
     Route::group(['middleware' => ['auth'], 'prefix' => 'datapeminjaman'], function() {
         Route::get('/create/{id}', [App\Http\Controllers\DataPeminjamanController::class, 'create'])->name('datapeminjaman.createuser');
