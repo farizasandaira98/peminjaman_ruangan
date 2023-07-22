@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2023 at 02:27 PM
+-- Generation Time: Jul 20, 2023 at 01:40 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -88,7 +88,7 @@ CREATE TABLE `data_ruangan` (
 --
 
 INSERT INTO `data_ruangan` (`id`, `nama_ruangan`, `kapasitas`, `status_ruangan`, `created_at`, `updated_at`) VALUES
-(1, 'Ruangan 1', 2754, 2, '2023-07-13 16:57:34', '2023-07-17 11:57:07');
+(1, 'Ruangan 1', 2754, 1, '2023-07-13 16:57:34', '2023-07-19 15:46:40');
 
 -- --------------------------------------------------------
 
@@ -260,13 +260,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `data_inventaris`
 --
 ALTER TABLE `data_inventaris`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `data_peminjaman`
 --
 ALTER TABLE `data_peminjaman`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `data_ruangan`
@@ -314,6 +314,26 @@ ALTER TABLE `data_inventaris`
 ALTER TABLE `data_peminjaman`
   ADD CONSTRAINT `data_peminjaman_id_peminjam_foreign` FOREIGN KEY (`id_peminjam`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `data_peminjaman_id_ruangan_foreign` FOREIGN KEY (`id_ruangan`) REFERENCES `data_ruangan` (`id`) ON DELETE CASCADE;
+
+DELIMITER $$
+--
+-- Events
+--
+CREATE DEFINER=`root`@`localhost` EVENT `update_data_ruangan` ON SCHEDULE EVERY 1 MINUTE STARTS '2023-07-20 05:08:43' ENDS '2024-07-20 05:08:43' ON COMPLETION PRESERVE DISABLE DO UPDATE data_ruangan
+    SET status_ruangan = 1
+    WHERE id_ruangan IN (
+        SELECT id_ruangan
+        FROM data_peminjaman
+        WHERE NOW() BETWEEN waktu_awal_peminjaman AND waktu_akhir_peminjaman
+    )$$
+
+CREATE DEFINER=`root`@`localhost` EVENT `update_status_ruangan_perdetik` ON SCHEDULE EVERY 1 MINUTE STARTS '2022-07-14 05:49:32' ENDS '2024-07-20 05:12:34' ON COMPLETION PRESERVE ENABLE DO UPDATE data_ruangan
+JOIN data_peminjaman ON data_ruangan.id = data_peminjaman.id_ruangan
+SET data_ruangan.status_ruangan = 1
+WHERE data_ruangan.status_ruangan = 2
+AND NOW() NOT BETWEEN data_peminjaman.waktu_mulai_peminjaman AND data_peminjaman.waktu_akhir_peminjaman$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

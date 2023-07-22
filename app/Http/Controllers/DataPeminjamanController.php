@@ -57,7 +57,7 @@ class DataPeminjamanController extends Controller
      */
     public function create($id)
     {
-        $dataruangan = DataRuangan::where('status_ruangan', 1)->get();
+        $dataruangan = DataRuangan::all();
         $datapeminjaman = DataPeminjaman::paginate(5);
         $pesan = "Data Ruangan Tidak Ada Yang Tersedia";
         if($dataruangan->isEmpty()){
@@ -73,7 +73,7 @@ class DataPeminjamanController extends Controller
 
     public function createadmin()
     {
-        $dataruangan = DataRuangan::where('status_ruangan', 1)->get();
+        $dataruangan = DataRuangan::all();
         $datapeminjaman = DataPeminjaman::paginate(5);
         $pesan = "Data Ruangan Tidak Ada Yang Tersedia";
         if($dataruangan->isEmpty()){

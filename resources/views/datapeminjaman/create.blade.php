@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body onload="setMinDatetime()">
     <div class="container">
         <div class="card mt-5">
             <div class="card-header text-center">
@@ -97,4 +97,18 @@
 </div>
 </div>
 </body>
+<script>
+    function setMinDatetime() {
+      // Get the current date and time
+      const now = new Date();
+
+      // Format the date in ISO 8601 format (YYYY-MM-DDTHH:mm)
+      const currentDate = now.toISOString().slice(0, 16);
+
+      // Set the 'min' attribute of the datetime input to the current date and time
+      document.getElementById("waktu_mulai_peminjaman").setAttribute("min", currentDate);
+      document.getElementById("waktu_akhir_peminjaman").setAttribute("min", currentDate);
+    }
+    </script>
+
 </html>

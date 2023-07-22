@@ -57,16 +57,12 @@
                       <td>Ruangan Sedang Dalam Perbaikan</td>
                       @endif
                       <td>
-                        @if(Auth::user()->role == 1 && $ang->status_ruangan == 1)
+                        @if(Auth::user()->role == 1)
                         <a href="/dataruangan/edit/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Edit</a></br></br>
                         <a href="/dataruangan/destroy/{{ $ang->id }}" class="btn btn-danger" style="width:100%;">Hapus</a></br></br>
-                        @if ($ang->status_ruangan == 1)
                         <a href="/datapeminjaman/create/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Pinjam Ruangan</a></br></br>
-                        @endif
                         @else
-                        @if ($ang->status_ruangan == 1)
                         <a href="/datapeminjaman/create/{{ $ang->id }}" class="btn btn-warning" style="width:100%;">Pinjam Ruangan</a></br></br>
-                        @endif
                         @endif
                         <a href="/dataruangan/inventaris/{{ $ang->id }}" class="btn btn-primary" style="width:100%;">Lihat Inventaris Ruangan</a>
                       </td>
