@@ -148,13 +148,4 @@ class DataRuanganController extends Controller
             return redirect('/dataruangan');
         }
     }
-
-    // public function search(Request $request)
-    // {
-    //     $cari = $request->search;
-    //     $hasilcari = $dataruangan = DataRuangan::where('nama_ruangan','LIKE','%'.$cari.'%')
-    //     ->paginate(5);
-    //     return view('/dataruangan/index', ['dataruangan' => $hasilcari]);
-    // }
-
 }
